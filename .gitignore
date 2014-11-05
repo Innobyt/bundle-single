@@ -1,0 +1,20 @@
+# Yeoman.gitignore
+bower_components/
+build/
+dist/
+
+# node.js
+logs
+*.log
+pids
+*.pid
+*.seed
+lib-cov
+coverage
+.grunt
+.lock-wscript
+build/Release
+node_modules
+
+# system files
+.DS_Store
