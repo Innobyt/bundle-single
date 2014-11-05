@@ -1,7 +1,12 @@
 # Yeoman.gitignore
+/server/config/local.env.js
+client/bower_components
 bower_components/
 build/
 dist/
+public
+.idea
+.tmp
 
 # node.js
 logs
