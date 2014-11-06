@@ -3,10 +3,10 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var schema = new Schema({
+var GamerepoSchema = new Schema({
     threshold   : Number,
     gamename    : String,
-    gamekeys    : [Object]
+    gamekeys    : Array
 });
 
-mongoose.model('gamerepo', schema);
+module.exports = mongoose.model('gamerepo', GamerepoSchema);

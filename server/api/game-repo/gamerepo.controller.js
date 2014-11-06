@@ -2,27 +2,27 @@
 
 var gamerepo = require('./gamerepo.model');
 
-// create
+// create a game-repo entry
 exports.create = function(req, res) {
 
  };
 
-// index
+// index get a list of game-repo documents
 exports.index = function(req, res) { 
 
  };
 
-// show
+// show get an individual game-repo document
 exports.show = function(req, res) {
 
  };
 
-// update
+// update an individual game-repo document
 exports.update = function(req, res) {
 
  };
 
-// destroy
+// destroy an individual game-repo document
 exports.destroy = function(req,res){
 
  };
