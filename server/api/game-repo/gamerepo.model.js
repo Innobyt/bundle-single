@@ -6,7 +6,8 @@ var mongoose = require('mongoose'),
 var GamerepoSchema = new Schema({
     threshold   : Number,
     gamename    : String,
-    gamekeys    : Array
+    gamekey     : String,
+    keystatus	: Boolean
 });
 
 module.exports = mongoose.model('gametitle', GamerepoSchema);

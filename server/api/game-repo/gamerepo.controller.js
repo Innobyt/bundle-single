@@ -43,6 +43,7 @@ function handleError(res, err) {
   return res.send(500, err);
 }
 
+// returns an array of entries
 function parse_form(args){
 
     // support unix/window compliance
@@ -56,15 +57,15 @@ function parse_form(args){
         gamekeys.pop();
     }
 
-    // store each gamekey with status
-    var gamekey_object = [];
-    for(var i = 0; i < gamekeys.length; i++){
-        gamekey_object.push({ 'key' : gamekeys[i], 'status' : true });
+    // create an array of entries
+    for(var i = 0, entries = []; i < gamekeys.length; i++){
+        entries.push({ 
+        	'threshold' : args.threshold, 
+        	'gamename' 	: args.gamename, 
+        	'gamekey' 	: gamekeys[i], 
+        	'keystatus' : true
+        });
     }
 
-    return new gamerepo({
-        threshold   : args.threshold,
-        gamename    : args.gamename,
-        gamekeys    : gamekey_object
-    });
+    return entries;
  }
