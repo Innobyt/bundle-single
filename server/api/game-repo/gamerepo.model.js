@@ -9,4 +9,4 @@ var GamerepoSchema = new Schema({
     gamekeys    : Array
 });
 
-module.exports = mongoose.model('gamerepo', GamerepoSchema);
+module.exports = mongoose.model('gametitle', GamerepoSchema);
