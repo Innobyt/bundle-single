@@ -20,23 +20,12 @@ exports.create = function(req, res) {
             // handle error
             if(err) return handleError(res,err);
 
+            return found 
             // handle found
-            if(found) return handleError(res,{message: ' duplicate entry found'});
+            ? handleError(res,{message: ' duplicate entry found'})
+            // create gamerepoth document, handle error || create gamerepo document
+            : insert_gamerepo_entries(req.body);
 
-            // create gamerepoth document
-        	gamerepoth.create(parse_form_gamerepoth(req.body), function(err, doc){ 
-                
-                // handle error
-                if(err) return handleError(res,err);
-
-                // create gamerepo document
-                gamerepo.create(parse_form_gamerepo(req.body),function(err, doc){ 
-                    return err ? handleError(res,err) : res.json(201, { // handle err, else handle success
-                        gamerepoth : parse_form_gamerepoth(req.body), // return successful data from gamerepoth
-                        gamerepo : parse_form_gamerepo(req.body) // return successful data from gamerepo
-                    });
-                });
-            });
         });
     });
  };
@@ -61,6 +50,17 @@ exports.show = function(req, res) {
 // update (is add) gametitles collection, with additional gamekeys
 exports.update = function(req, res) {
 
+    gamerepoth.update({gamename: req.body.gamename}, { $set : { threshold : req.body.threshold } }, function(err, doc){
+        
+        // handle error
+        if(err) return handleError(res,err);
+        
+        return !doc 
+        // handle doc not found
+        ? handleError(res,{message: ' no existing entry found '})
+        // create gamerepoth document, handle error || create gamerepo document
+        : insert_gamerepo_entries(req.body);
+    });
  };
 
 // destroy an individual game-repo document
@@ -84,6 +84,16 @@ exports.destroy = function(req,res){
 function handleError(res, err) {
   return res.send(500, err);
  };
+
+// create gamerepo document, handle error || success response
+function insert_gamerepo_entries(req.body){
+    gamerepo.create(parse_form_gamerepo(req.body),function(err, doc){ 
+        return err ? handleError(res,err) : res.json(201, { // handle err, else handle success
+            gamerepoth : parse_form_gamerepoth(req.body), // return successful data from gamerepoth
+            gamerepo : parse_form_gamerepo(req.body) // return successful data from gamerepo
+        });
+    });
+}
 
 // accepts, form body, and return required args
 function parse_form_gamerepoth(args){
