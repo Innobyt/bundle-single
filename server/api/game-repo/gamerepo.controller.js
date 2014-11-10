@@ -56,7 +56,6 @@ exports.show = function(req, res) {
     if(!doc) { return res.send(404); }
     return res.json(doc);
   });
-
  };
 
 // update (is add) gametitles collection, with additional gamekeys
@@ -79,7 +78,6 @@ exports.destroy = function(req,res){
     : doc.remove(function(err) { 
         return err ? handleError(res, err) : res.send(204);
     });
-
   });
  };
 
