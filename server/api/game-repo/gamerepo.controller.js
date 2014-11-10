@@ -63,7 +63,7 @@ exports.destroy = function(req,res){
 
 function handleError(res, err) {
   return res.send(500, err);
-}
+ };
 
 // returns an array of entries
 function parse_form(args){
@@ -82,7 +82,7 @@ function parse_form(args){
     }
 
     return array_of_entries;
- }
+ };
 
 // accepts, string or csv, returns an array of gamekeys
 function parse_multiformat_gamekeys(data){
@@ -94,9 +94,9 @@ function parse_multiformat_gamekeys(data){
     gamekeys_array = gamekeys_array.split( "," );
 
     // check if last array is ""
-    while(gamekeys_array[gamekeys_array.length - 1] == "")
+    while(gamekeys_array[gamekeys_array.length - 1] == ""){
         gamekeys_array.pop();
     }
 
     return gamekeys_array;
-}}
+ };
