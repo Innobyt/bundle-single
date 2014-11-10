@@ -45,12 +45,19 @@ exports.update = function(req, res) {
 // destroy an individual game-repo document
 exports.destroy = function(req,res){
   gamerepo.findById(req.params.id, function (err, doc) {
-    if(err) { return handleError(res, err); }
-    if(!doc) { return res.send(404); }
-    doc.remove(function(err) {
-      if(err) { return handleError(res, err); }
-      return res.send(204);
+    
+    // handle error
+    if(err) return handleError(res, err);
+    
+    // if document by _id found, remove, return error else 
+    // attempt to remove document if error, return error, 
+    // else, return success
+    return !doc 
+    ? res.send(404) 
+    : doc.remove(function(err) { 
+        return err ? handleError(res, err) : res.send(204);
     });
+
   });
  };
 
