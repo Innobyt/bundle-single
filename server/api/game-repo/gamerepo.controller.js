@@ -62,20 +62,26 @@ exports.show = function(req, res) {
 // update (is add) gametitles collection, with additional gamekeys
 exports.update = function(req, res) {
 
-    // if document by property gamename found, do not create, else create
-    gamerepoth.findOne({ gamename: req.body.gamename }, function(err, found){
+    // query object
+    var query = {
+        // user can only update 1 gamename at a time
+        'gamename' : parse_form_gametitles(req.body)[0].gamename,
+        // get gamekeys as $in condition
+        'gamekeys' : { $in : get_gamekeys_query(parse_form_gametitles(req.body)) }
+    };
+
+    // insert gametitle document, handle error || create gamerepo document
+    gametitles.find(query, function(err, found){
 
         // handle error
         if(err) return handleError(res,err);
-
-        return !found 
-        // handle found, return response
-        ? handleError(res,{message: ' no existing entry found'})
-        // insert gametitle document, handle error || insert gametitle response
+        
+        return found 
+        // handle found
+        ? handleError(res,{message: ' duplicate entry found'})
+        // create gamerepoth document, handle error || create gamerepo document
         : gamerepo_logic.insert(req,res);
-
     });
-
  };
 
 // destroy an individual game-repo document
@@ -127,6 +133,13 @@ function parse_form_gametitles(args){
 
     return array_of_entries;
  };
+
+// accepts parse_form_gametitles results, returns a gamekey query array
+function get_gamekeys_query(array_of_entries){
+    for(var i = 0, gamekey_query = []; i < array_of_entries.length; i++){
+        gamekey_query.push(array_of_entries[i].gamekey);
+    } return gamekey_query;
+}
 
 // return totalcount of created entries
 function tally_gametitles_entries(args){
