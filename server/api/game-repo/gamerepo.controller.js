@@ -67,7 +67,7 @@ exports.update = function(req, res) {
         // user can only update 1 gamename at a time
         'gamename' : parse_form_gametitles(req.body)[0].gamename,
         // get gamekeys as $in condition
-        'gamekeys' : { $in : get_gamekeys_query(parse_form_gametitles(req.body)) }
+        'gamekey' : { $in : get_gamekeys_query(parse_form_gametitles(req.body)) }
     };
 
     // insert gametitle document, handle error || create gamerepo document
