@@ -70,17 +70,26 @@ exports.update = function(req, res) {
         'gamekey' : { $in : get_gamekeys_query(parse_form_gametitles(req.body)) }
     };
 
-    // insert gametitle document, handle error || create gamerepo document
-    gametitles.find(query, function(err, found){
-
+    gamerepoth.findOne({ gamename: query.gamename }, function(err, found){
+        
         // handle error
         if(err) return handleError(res,err);
-        
-        return found 
+
         // handle found
-        ? handleError(res,{message: ' duplicate entry found'})
-        // create gamerepoth document, handle error || create gamerepo document
-        : gamerepo_logic.insert(req,res);
+        if(!found) return handleError(res,{message: ' could not update'});
+        
+        // insert gametitle document, handle error || create gamerepo document
+        gametitles.find(query, function(err, found){
+
+            // handle error
+            if(err) return handleError(res,err);
+            
+            return found 
+            // handle found
+            ? handleError(res,{message: ' duplicate entry found, could not upate'})
+            // create gamerepoth document, handle error || create gamerepo document
+            : gamerepo_logic.insert(req,res);
+        });
     });
  };
 
