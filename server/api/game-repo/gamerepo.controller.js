@@ -3,42 +3,43 @@
 var gamerepo = require('./gamerepo.model');
 var gamerepoth = require('./gamerepoth.model');
 
+var gamerepo_logic = {
+
+    // create gametitle document, handle error || success response
+    create : function(req,res){
+        gamerepo.create(parse_form_gamerepo(req.body),function(err, doc){ 
+            return err ? handleError(res,err) : res.json(201, { // handle err, else handle success
+                gamerepoth : parse_form_gamerepoth(req.body), // return successful data from gamerepoth
+                gamerepo : parse_form_gamerepo(req.body) // return successful data from gamerepo
+            });
+        });
+    },
+
+    // insert gamerepo document, handle error || success response
+    insert : function(req,res){ 
+        this.create(req,res);
+    }
+};
+
 // create a game-repo entry
 exports.create = function(req, res) {
     
-    gamerepo.findOne({ gamename: req.body.gamename }, function(err, found){
-
-    	// handle error
-    	if(err) return handleError(res,err);
-
-        // handle found
-        if(found) return handleError(res,{message: ' duplicate entry found '});
+    // if document by property gamename found, do not create, else create
+    gamerepoth.findOne({ gamename: req.body.gamename }, function(err, found){
         
-        // if document by property gamename found, do not create, else create
-        gamerepoth.findOne({ gamename: req.body.gamename }, function(err, found){
-            
-            // handle error
-            if(err) return handleError(res,err);
+        // handle error
+        if(err) return handleError(res,err);
 
-            // handle found
-            if(found) return handleError(res,{message: ' duplicate entry found'});
-
-            // create gamerepoth document
-        	gamerepoth.create(parse_form_gamerepoth(req.body), function(err, doc){ 
-                
-                // handle error
-                if(err) return handleError(res,err);
-
-                // create gamerepo document
-                gamerepo.create(parse_form_gamerepo(req.body),function(err, doc){ 
-                    return err ? handleError(res,err) : res.json(201, { // handle err, else handle success
-                        gamerepoth : parse_form_gamerepoth(req.body), // return successful data from gamerepoth
-                        gamerepo : parse_form_gamerepo(req.body) // return successful data from gamerepo
-                    });
-                });
-            });
+        return found 
+        // handle found
+        ? handleError(res,{message: ' duplicate entry found'})
+        // create gamerepoth document, handle error || create gamerepo document
+        : gamerepoth.create(parse_form_gamerepoth(req.body), function(err,doc){
+            return err ? handleError(res,err) : gamerepo_logic.create(req,res);
         });
+
     });
+
  };
 
 // index get a list of game-repo documents
@@ -60,6 +61,20 @@ exports.show = function(req, res) {
 
 // update (is add) gametitles collection, with additional gamekeys
 exports.update = function(req, res) {
+
+    // if document by property gamename found, do not create, else create
+    gamerepoth.findOne({ gamename: req.body.gamename }, function(err, found){
+
+        // handle error
+        if(err) return handleError(res,err);
+
+        return !found 
+        // handle found, return response
+        ? handleError(res,{message: ' no existing entry found'})
+        // insert gametitle document, handle error || insert gametitle response
+        : gamerepo_logic.insert(req,res);
+
+    });
 
  };
 
@@ -84,6 +99,7 @@ exports.destroy = function(req,res){
 function handleError(res, err) {
   return res.send(500, err);
  };
+
 
 // accepts, form body, and return required args
 function parse_form_gamerepoth(args){
