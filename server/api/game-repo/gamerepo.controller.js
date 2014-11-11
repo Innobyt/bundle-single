@@ -1,21 +1,21 @@
 'use strict';
 
-var gamerepo = require('./gamerepo.model');
+var gametitles = require('./gametitle.model');
 var gamerepoth = require('./gamerepoth.model');
 
 var gamerepo_logic = {
 
     // create gametitle document, handle error || success response
     create : function(req,res){
-        gamerepo.create(parse_form_gamerepo(req.body),function(err, doc){ 
+        gametitles.create(parse_form_gametitles(req.body),function(err, doc){ 
             return err ? handleError(res,err) : res.json(201, { // handle err, else handle success
                 gamerepoth : parse_form_gamerepoth(req.body), // return successful data from gamerepoth
-                gamerepo : parse_form_gamerepo(req.body) // return successful data from gamerepo
+                gametitles : parse_form_gametitles(req.body) // return successful data from gametitles
             });
         });
     },
 
-    // insert gamerepo document, handle error || success response
+    // insert gametitles document, handle error || success response
     insert : function(req,res){ 
         this.create(req,res);
     }
@@ -44,7 +44,7 @@ exports.create = function(req, res) {
 
 // index get a list of game-repo documents
 exports.index = function(req, res) { 
-    gamerepo.find({}, function(err, doc){
+    gametitles.find({}, function(err, doc){
         return err ? handleError(res, err)
         : res.json(doc);
     });
@@ -52,7 +52,7 @@ exports.index = function(req, res) {
 
 // show get an individual game-repo document
 exports.show = function(req, res) {
-  gamerepo.findById(req.params.id, function (err, doc) {
+  gametitles.findById(req.params.id, function (err, doc) {
     if(err) { return handleError(res, err); }
     if(!doc) { return res.send(404); }
     return res.json(doc);
@@ -80,7 +80,7 @@ exports.update = function(req, res) {
 
 // destroy an individual game-repo document
 exports.destroy = function(req,res){
-  gamerepo.findById(req.params.id, function (err, doc) {
+  gametitles.findById(req.params.id, function (err, doc) {
     
     // handle error
     if(err) return handleError(res, err);
@@ -106,12 +106,12 @@ function parse_form_gamerepoth(args){
     return { 
         threshold   : args.threshold,
         gamename    : args.gamename,
-        totalcount  : tally_gamerepo_entries(args)
+        totalcount  : tally_gametitles_entries(args)
     };
  }; 
 
 // returns an array of entries
-function parse_form_gamerepo(args){
+function parse_form_gametitles(args){
 
     // parse gamekeys as an array
     var gamekeys = parse_multiformat_gamekeys(args.gamekeys);
@@ -129,8 +129,8 @@ function parse_form_gamerepo(args){
  };
 
 // return totalcount of created entries
-function tally_gamerepo_entries(args){
-    return parse_form_gamerepo(args).length;
+function tally_gametitles_entries(args){
+    return parse_form_gametitles(args).length;
  }
 
 // accepts, string or csv, returns an array of gamekeys
