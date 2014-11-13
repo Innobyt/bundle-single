@@ -37,9 +37,7 @@ exports.create = function(req, res) {
         : gamerepoth.create(parse_form_gamerepoth(req.body), function(err,doc){
             return err ? handleError(res,err) : gamerepo_logic.create(req,res);
         });
-
     });
-
  };
 
 // index get a list of game-repo documents
