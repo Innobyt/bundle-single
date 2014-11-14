@@ -37,9 +37,7 @@ exports.create = function(req, res) {
         : gamerepoth.create(parse_form_gamerepoth(req.body), function(err,doc){
             return err ? handleError(res,err) : gamerepo_logic.create(req,res);
         });
-
     });
-
  };
 
 // index get a list of game-repo documents
@@ -111,10 +109,30 @@ exports.destroy = function(req,res){
   });
  };
 
+// has, accepts an array of gametitles, returns true || false
+exports.has_by_json = function(req, res){
+
+    var gamelist = parse_gametitles(req.body.gamelist);
+
+    console.log(gamelist);
+
+    gamerepoth.find({ gamename: { $in: gamelist } }, function(err, found){
+
+        // handle error
+        if(err) return handleError(res,err);
+    
+        // return result
+        return found.length != gamelist.length
+        // gamelist in gametitles not found
+        ? handleError(res, {result : false, error : ""})
+        // all gametitles in gamelist found
+        : res.send(200, {result : true, error : ""});
+    });
+ };
+
 function handleError(res, err) {
   return res.send(500, err);
  };
-
 
 // accepts, form body, and return required args
 function parse_form_gamerepoth(args){
@@ -148,7 +166,7 @@ function get_gamekeys_query(array_of_entries){
     for(var i = 0, gamekey_query = []; i < array_of_entries.length; i++){
         gamekey_query.push(array_of_entries[i].gamekey);
     } return gamekey_query;
-}
+ }
 
 // return totalcount of created entries
 function tally_gametitles_entries(args){
@@ -170,4 +188,23 @@ function parse_multiformat_gamekeys(data){
     }
 
     return gamekeys_array;
+ };
+
+// accepts, string, returns an array of gametitles
+function parse_gametitles(data){
+    
+    // support unix/window compliance
+    var gametitle_array = data.replace( /\r\n/g, "," );
+    gametitle_array = gametitle_array.replace( /\n/g, "," );
+    gametitle_array = gametitle_array.replace( /,\s/g, "," );
+    gametitle_array = gametitle_array.replace( /\s,/g, "," );
+    gametitle_array = gametitle_array.split( "," );
+    
+
+    // check if last array is ""
+    while(gametitle_array[gametitle_array.length - 1] == ""){
+        gametitle_array.pop();
+    }
+
+    return gametitle_array;
  };
