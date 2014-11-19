@@ -82,7 +82,7 @@ exports.update = function(req, res) {
             // handle error
             if(err) return handleError(res,err);
             
-            return found 
+            return found.length
             // handle found
             ? handleError(res,{message: ' duplicate entry found, could not upate'})
             // create gamerepoth document, handle error || create gamerepo document
@@ -114,8 +114,6 @@ exports.has_by_json = function(req, res){
 
     var gamelist = parse_gametitles(req.body.gamelist);
 
-    console.log(gamelist);
-
     gamerepoth.find({ gamename: { $in: gamelist } }, function(err, found){
 
         // handle error
@@ -127,6 +125,46 @@ exports.has_by_json = function(req, res){
         ? handleError(res, {result : false, error : ""})
         // all gametitles in gamelist found
         : res.send(200, {result : true, error : ""});
+    });
+ };
+
+// claim a gamekey by gametitle
+exports.claim = function(req, res) {
+
+    // create a query
+    var query = {
+        keystatus : true,
+        gamename : req.params.gametitle
+    };
+
+    // create update
+    var update = {
+        keystatus : false
+    };
+
+    gametitles.findOne( query, function (err, doc) {
+
+        // handle error
+        if(err) return handleError(res, err);
+
+        // handle no avaliable gamekey
+        if(!doc) return handleError(res, {message : ' no avaliable gamekey'});
+
+        // claim redemptionkey
+        gametitles.update({ _id : doc._id }, update, function(err,updated){
+
+            // handle 
+            if(err) handleError(res,{message: ' error, could not update'});
+
+            // handle return
+            return !updated 
+            // handle update false
+            ? handleError(res, err) 
+            // handle update true
+            // return avaliable gamekey
+            : res.send({ result : doc });
+
+        });
     });
  };
 
