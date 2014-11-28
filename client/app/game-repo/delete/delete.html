@@ -1,0 +1,41 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="font-awesome/css/font-awesome.css" type="text/css" /><!-- Font Awesome -->
+<link rel="stylesheet" href="css/style.css" type="text/css" /><!-- Style -->
+    
+    <div class="container">
+        <h1>Gamerepo Form Delete</h1>
+        <p class="lead">enter description text here</p>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Form:</h1>
+        </div>
+    </div>
+
+    <!-- Gamerepo List Delete View -->
+    <div class="jumbotron text-center"> <h1>Repo Listing Delete Repo</h1> </div>
+    <ul class="list-group col-sm-12" ng-repeat="(key, repo) in Gamerepo">
+        <li class="list-group-item">
+            <div class="col-md-9">{{repo.gamename}}</div>
+            <button ng-click="delete(repo._id)" class="btn-primary">Delete</button>
+        </li>
+    </ul>
+</div>
+
+<footer class="footer">
+<div class="container">
+  <p><a href="http://innobyt.com">Innobyt Redemption Web Application</a></p>
+</div>
+</footer>
+
+<!-- Optional: Include the jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- Optional: Incorporate the Bootstrap JavaScript plugins -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
