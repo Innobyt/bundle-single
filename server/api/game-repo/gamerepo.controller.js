@@ -26,6 +26,8 @@ exports.create = function(req, res) {
     
     // if document by property gamename found, do not create, else create
     gamerepoth.findOne({ gamename: req.body.gamename }, function(err, found){
+
+console.log(parse_form_gamerepoth(req.body));
         
         // handle error
         if(err) return handleError(res,err);
@@ -186,6 +188,7 @@ function parse_form_gametitles(args){
 
     // parse gamekeys as an array
     var gamekeys = parse_multiformat_gamekeys(args.gamekeys);
+console.log("gamekeys: " + gamekeys);
 
     // create an array of entries
     for(var i = 0, array_of_entries = []; i < gamekeys.length; i++){
@@ -215,10 +218,12 @@ function tally_gametitles_entries(args){
 function parse_multiformat_gamekeys(data){
     
     // support unix/window compliance
+console.log("parse_multiformat_gamekeys: " + data);
     var gamekeys_array = data.replace( /\r\n/g, "," );
     gamekeys_array = gamekeys_array.replace( /\n/g, "," );
     gamekeys_array = gamekeys_array.replace( /\s/g, "," );
     gamekeys_array = gamekeys_array.split( "," );
+var gamekeysArray = gamekeysArray.concat(gamekeys_array);
 
     // check if last array is ""
     while(gamekeys_array[gamekeys_array.length - 1] == ""){
