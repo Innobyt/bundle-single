@@ -24,16 +24,16 @@
     </ul>
 
       <!-- Gamerepo Add Gamerepo Game Keys-->
-      <div class="jumbotron text-center"> <h1>Gamerepo Add Game Keys in {{add_gamerepo.gamename}}</h1> </div>
+      <div class="jumbotron text-center"> <h1>Gamerepo Add Game Keys</h1> </div>
       <div class="col-sm-8 col-sm-offset-2 list-group-item">
         <form class="form-group">
-    <label> Game Key </label> <input type="text" id="gamekey" class="form-control input-lg" placeholder="XXXXX-XXXXX-XXXXX-XXXXX" ng-model="formData.gamekeys">
+    <label> Game Title </label> <input type="text" id="gamename" class="form-control input-lg" placeholder="Bioshock" ng-model="formData.gamename">		
+    <label> Game Key </label> <input type="text" id="gamekeys" class="form-control input-lg" placeholder="XXXXX-XXXXX-XXXXX-XXXXX" ng-model="formData.gamekeys">
     <label for="keyupload">File Upload for Game Keys (.csv)</label> <input type="file" id="gamekeys" ng-model="formData.gamekeys">
     <label> Threshold </label> <input type="text" id="threshold" class="form-control input-lg" placeholder="10" ng-model="formData.threshold">
-    <button type="submit" class="btn btn-primary" ng-click="submit()">Add</button>
         </form>
         <button type="submit" class="btn btn-primary btn-lg" ng-click="update()">Update</button>
-      </div>
+		</div>
 
 </div>
 

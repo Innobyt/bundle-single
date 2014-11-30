@@ -1,22 +1,23 @@
 (function() {
 	'use strict';
 
-	angular.module('gamerepoApp')
-	  .controller('RetrieveCtrl', ['$scope', 'gamerepo', RetrieveCtrl]);
+	angular.module('gameRepoApp')
+	  .controller('RetrieveCtrl', ['$scope', 'gameRepo', RetrieveCtrl]);
 
 	// RetrieveCtrl requires 1 actions of CRUD, R as in retrieve
-	function RetrieveCtrl($scope, gamerepo) {
+	function RetrieveCtrl($scope, gameRepo) {
 
-		// get, all gamerepo ('R' in Crud)
+		// get, all gameRepo ('R' in Crud)
 		$scope.readall = function(){
-			var gamerepo = gamerepo.query(function() {
-				$scope.gamerepo = gamerepo;
+			var gameRepo = gameRepo.query(function() {
+				$scope.gameRepo = gameRepo;
 			});
 		};
 
-		// initialize gamerepo controller and services
+		// initialize gameRepo controller and services
 		$scope.initialize = function(){
 			$scope.readall();
+			$scope.gameRepo = gamequery();
 		};
 
 		$scope.initialize();
