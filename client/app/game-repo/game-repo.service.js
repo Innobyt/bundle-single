@@ -3,11 +3,12 @@
 
 	angular
 	    .module('gamerepoApp')
-	    .factory('gamerepo', ['$resource', gamerepo]);
+	    .factory('gameRepo', ['$resource', gameRepo]);
 
-	function gamerepo($resource) {
+	function gameRepo($resource) {
 		return $resource('/api/game-repo/:id', {}, {
-			update: { method: 'PUT', params: { id: '@id' } }
+			update: { method: 'PUT', params: { id: '@id' } },
+			query: { method: 'GET', isArray: false }
 		});
 	}
 })();
