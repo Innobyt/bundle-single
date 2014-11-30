@@ -188,7 +188,7 @@ function parse_form_gametitles(args){
 
     // parse gamekeys as an array
     var gamekeys = parse_multiformat_gamekeys(args.gamekeys);
-console.log("gamekeys: " + gamekeys);
+    console.log("gamekeys: " + gamekeys);
 
     // create an array of entries
     for(var i = 0, array_of_entries = []; i < gamekeys.length; i++){
@@ -218,7 +218,7 @@ function tally_gametitles_entries(args){
 function parse_multiformat_gamekeys(data){
     
     // support unix/window compliance
-console.log("parse_multiformat_gamekeys: " + data);
+    console.log("parse_multiformat_gamekeys: " + data);
     var gamekeys_array = data.replace( /\r\n/g, "," );
     gamekeys_array = gamekeys_array.replace( /\n/g, "," );
     gamekeys_array = gamekeys_array.replace( /\s/g, "," );
