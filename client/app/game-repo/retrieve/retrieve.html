@@ -16,11 +16,10 @@
 
     <!-- Gamerepo List View -->
     <div class="jumbotron text-center"> <h1>Repo Listing Repo</h1> </div>
-    <ul class="list-group col-sm-12" ng-repeat="gamerepo in gamerepos">
+    <ul class="list-group col-sm-12" ng-repeat="item in gamerepo">
         <li class="list-group-item">
-            <div class="col-md-9">{{gamerepo.gamename}}</div>
-            <span class="label label-info">{{gamerepo.avaliable}}</span>  
-            <span class="label label-danger">{{gamerepo.claimed}}</span>
+            <div class="col-md-9">{{item.gamename}}</div>
+            <span class="label label-info">{{item}}</span>  
             <button ng-click="view(gamerepo._id)" class="btn-primary">View</button>
         </li>
     </ul>
