@@ -16,14 +16,26 @@
 
     <!-- Gamerepo List View -->
     <div class="jumbotron text-center"> <h1>Repo Listing Repo</h1> </div>
-    <ul class="list-group col-sm-12" ng-repeat="(key, repo) in Gamerepo">
+    <ul class="list-group col-sm-12" ng-repeat="gamerepo in gamerepos">
         <li class="list-group-item">
-            <div class="col-md-9">{{repo.gamename}}</div>
-            <span class="label label-info">{{repo.avaliable}}</span>  
-            <span class="label label-danger">{{repo.claimed}}</span>
-            <button ng-click="view(repo._id)" class="btn-primary">View</button>
+            <div class="col-md-9">{{gamerepo.gamename}}</div>
+            <span class="label label-info">{{gamerepo.avaliable}}</span>  
+            <span class="label label-danger">{{gamerepo.claimed}}</span>
+            <button ng-click="view(gamerepo._id)" class="btn-primary">View</button>
         </li>
     </ul>
+		  <p><strong>Filter:</strong> {{tableParams.filter()|json}}
+      <table ng-table="tableParams" show-filter="true" class="table table-striped">
+        <thead>
+          <th>gamerepos</th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="gamerepo in $data">
+          <td data-title="'gamename'" filter="{ 'gamename': 'text' }">>{{gamerepo.gamename}}</td>
+		  <td data-title="'gamekeys'">{{gamerepo.gamekeys}}</td>
+        </tr>
+        </tbody>
+      </table>
 
 </div>
 
