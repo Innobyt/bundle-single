@@ -1,6 +1,9 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <header class="hero-unit" id="banner">
+    <script data-require="ng-table@*" data-semver="0.3.0" src="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.js"></script>
+    <script data-require="ng-table-export@0.1.0" data-semver="0.1.0" src="http://bazalt-cms.com/assets/ng-table-export/0.1.0/ng-table-export.js"></script>
+	<link data-require="ng-table@*" data-semver="0.3.0" rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" />
   <div class="container">
     <h1>Gamerepo Form Update</h1>
     <p class="lead">enter description text here</p>
@@ -34,6 +37,21 @@
         </form>
         <button type="submit" class="btn btn-primary btn-lg" ng-click="update()">Update</button>
 		</div>
+		
+	<p><strong>Filter:</strong> {{tableParams.filter()|json}}
+	    <!-- <p>It use <a href="https://github.com/esvit/ng-table-export" target="_blank">ngTableExport</a></p> -->
+	    <a class="btn btn-primary" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="test.csv">Export to CSV</a>
+      <table ng-table="tableParams" show-filter="true" export-csv="csv" class="table table-striped">
+        <thead>
+          <th>gamerepos</th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="gamerepo in $data">
+          <td data-title="'gamename'" filter="{ 'gamename': 'text' }">>{{gamerepo.gamename}}</td>
+		  <td data-title="'gamekeys'">{{gamerepo.gamekeys}}</td>
+        </tr>
+        </tbody>
+      </table>
 
 </div>
 
