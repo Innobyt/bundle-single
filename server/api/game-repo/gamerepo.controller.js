@@ -223,7 +223,6 @@ function parse_multiformat_gamekeys(data){
     gamekeys_array = gamekeys_array.replace( /\n/g, "," );
     gamekeys_array = gamekeys_array.replace( /\s/g, "," );
     gamekeys_array = gamekeys_array.split( "," );
-var gamekeysArray = gamekeysArray.concat(gamekeys_array);
 
     // check if last array is ""
     while(gamekeys_array[gamekeys_array.length - 1] == ""){
