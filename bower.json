@@ -15,7 +15,8 @@
     "lodash": "~2.4.1",
     "angular-socket-io": "~0.6.0",
     "angular-ui-router": "~0.2.10",
-    "ng-table": "0.3.3"
+    "ng-table": "0.3.3",
+    "ng-table-export": "latest"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
