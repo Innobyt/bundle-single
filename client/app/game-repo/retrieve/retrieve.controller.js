@@ -1,17 +1,21 @@
 (function() {
 	'use strict';
 
-	// Mon, December 1, 2014 fix, comments (you can delete these comments): 
-	// I have commented out, various code in order to get this module working properly.
-	// You will have to, uncomment you features, and fix them.
-
-	angular.module('gamerepoApp')//, ['ngTable'])
+	angular.module('gamerepoApp')
 	  .controller('RetrieveCtrl', ['$scope', /*$filter, ngTableParams,*/ 'gameRepo', RetrieveCtrl]);
 
 	// RetrieveCtrl requires 1 actions of CRUD, R as in retrieve
 	function RetrieveCtrl($scope, gameRepo) {
 
-		console.log('now this is loaded');
+		// ng-table data demonstration : start delete this 
+        $scope.users = [
+            {name: "Moroni", age: 50},
+            {name: "Tiancum", age: 43},
+            {name: "Jacob", age: 27},
+            {name: "Nephi", age: 29},
+            {name: "Enos", age: 34}
+        ]; // end of demonstration : end of delete this
+
 
 		// get, all gameRepo ('R' in Crud)
 		$scope.readall = function(){

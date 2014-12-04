@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('gamerepoApp', [
+  'ngTable',
   'ngCookies',
   'ngResource',
   'ngSanitize',
