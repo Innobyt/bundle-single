@@ -16,34 +16,30 @@
 
     <!-- Gamerepo List View -->
     <div class="jumbotron text-center"> <h1>Repo Listing Repo</h1> </div>
-    <ul class="list-group col-sm-12" ng-repeat="item in gamerepo">
-        <li class="list-group-item">
+    <!-- <ul class="list-group col-sm-12" ng-repeat="item in gamerepo"> -->
+	<ul class="list-group col-sm-12">
+        <li class="list-group-item" ng-repeat="item in gamerepo">
             <div class="col-md-9">{{item.gamename}}</div>
+			<!--- <select ng-options="item.gamename for item in gamerepo | unique: 'gamename'">
+			<option value="0">Default</option>
+			</select> -->
             <span class="label label-info">{{item}}</span>  
-            <button ng-click="view(gamerepo._id)" class="btn-primary">View</button>
+            <button ng-click="view(item._id)" class="btn-primary">View</button>
         </li>
     </ul>
-
-    <!-- ng-table demonstration -->
-    <table ng-table class="table">
-        <tr ng-repeat="user in users">
-            <td data-title="'Name'">{{user.name}}</td>
-            <td data-title="'Age'">{{user.age}}</td>
-        </tr>
-    </table>
-
-<!-- 		  <p><strong>Filter:</strong> {{tableParams.filter()|json}}
+		  <p><strong>Filter:</strong> {{tableParams.filter()|json}}
       <table ng-table="tableParams" show-filter="true" class="table table-striped">
         <thead>
           <th>gamerepos</th>
         </thead>
         <tbody>
         <tr ng-repeat="gamerepo in $data">
-          <td data-title="'gamename'" filter="{ 'gamename': 'text' }">>{{gamerepo.gamename}}</td>
-		  <td data-title="'gamekeys'">{{gamerepo.gamekeys}}</td>
+          <td data-title="'Game Title'" filter="{ 'gamename': 'text' }">>{{gamerepo.gamename}}</td>
+		  <td data-title="'Game Key'" filter="{ 'gamekeys': 'text' }">{{gamerepo.gamekeys}}</td>
+		  <td data-title="'Available'" filter="{ 'keystatus': 'text' }">{{gamerepo.keystatus}}</td>
         </tr>
         </tbody>
-      </table> -->
+      </table>
 
 </div>
 
