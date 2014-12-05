@@ -30,29 +30,70 @@
 			});
 		}; 
 
-		var data = $scope.readall();	
+		// start delete : demonstration code
+	    var data = [{name: "Moroni", age: 50},
+	                {name: "Tiancum", age: 43},
+	                {name: "Jacob", age: 27},
+	                {name: "Nephi", age: 29},
+	                {name: "Enos", age: 34},
+	                {name: "Tiancum", age: 43},
+	                {name: "Jacob", age: 27},
+	                {name: "Nephi", age: 29},
+	                {name: "Enos", age: 34},
+	                {name: "Tiancum", age: 43},
+	                {name: "Jacob", age: 27},
+	                {name: "Nephi", age: 29},
+	                {name: "Enos", age: 34},
+	                {name: "Tiancum", age: 43},
+	                {name: "Jacob", age: 27},
+	                {name: "Nephi", age: 29},
+	                {name: "Enos", age: 34}];
+
+	    $scope.tableParams = new ngTableParams({
+	        page: 1,            // show first page
+	        count: 10,          // count per page
+	        filter: {
+	            name: 'M'       // initial filter
+	        }
+	    }, {
+	        total: data.length, // length of data
+	        getData: function($defer, params) {
+	            // use build-in angular filter
+	            var orderedData = params.filter() ?
+	                   $filter('filter')(data, params.filter()) :
+	                   data;
+
+	            $scope.users = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+
+	            params.total(orderedData.length); // set total for recalc pagination
+	            $defer.resolve($scope.users);
+	        }
+	    });
+	    // end of delete : demonstration code
+	    
+		// var data = $scope.readall();	
 		
-		 $scope.tableParams = new ngTableParams({
-         page: 1,            // show first page
-         count: 10,          // count per page
-         filter: {
-             gamename: 'game1234',       // initial filter for gamename
-			 keystatus: '' // Has to implement as "Available" and "Claimed", not sure how to create the status as this.
-         }
-     }, {
-         total: data.length, // length of data
-         getData: function($defer, params) {
-             // use build-in angular filter
-             var orderedData = params.filter() ?
-                    $filter('filter')(data, params.filter()) :
-                    data;
+		//  $scope.tableParams = new ngTableParams({
+  //        page: 1,            // show first page
+  //        count: 10,          // count per page
+  //        filter: {
+  //            gamename: 'game1234',       // initial filter for gamename
+		// 	 keystatus: '' // Has to implement as "Available" and "Claimed", not sure how to create the status as this.
+  //        }
+  //    }, {
+  //        total: data.length, // length of data
+  //        getData: function($defer, params) {
+  //            // use build-in angular filter
+  //            var orderedData = params.filter() ?
+  //                   $filter('filter')(data, params.filter()) :
+  //                   data;
 
-             $scope.gamerepos = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+  //            $scope.gamerepos = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
 
-             params.total(orderedData.length); // set total for recalc pagination
-             $defer.resolve($scope.gamerepos);
-         }
-     });
+  //            params.total(orderedData.length); // set total for recalc pagination
+  //            $defer.resolve($scope.gamerepos);
+  //        }
+  //    });
 
 		// initialize gameRepo controller and services
 		$scope.initialize = function(){

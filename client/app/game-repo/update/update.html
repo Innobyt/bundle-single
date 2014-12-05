@@ -37,21 +37,36 @@
         </form>
         <button type="submit" class="btn btn-primary btn-lg" ng-click="update()">Update</button>
 		</div>
-		
-	<p><strong>Filter:</strong> {{tableParams.filter()|json}}
-	    <!-- <p>It use <a href="https://github.com/esvit/ng-table-export" target="_blank">ngTableExport</a></p> -->
-	    <a class="btn btn-primary" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="test.csv">Export to CSV</a>
-      <table ng-table="tableParams" show-filter="true" export-csv="csv" class="table table-striped">
-        <thead>
-          <th>gamerepos</th>
-        </thead>
-        <tbody>
-        <tr ng-repeat="gamerepo in $data">
-          <td data-title="'gamename'" filter="{ 'gamename': 'text' }">>{{gamerepo.gamename}}</td>
-		  <td data-title="'gamekeys'">{{gamerepo.gamekeys}}</td>
+
+    <!-- start delete : demonstration code -->
+    <p><strong>Filter:</strong> {{tableParams.filter()|json}}
+
+    <table ng-table="tableParams" show-filter="true" class="table">
+        <tr ng-repeat="user in $data">
+            <td data-title="'Name'" filter="{ 'name': 'text' }">
+                {{user.name}}
+            </td>
+            <td data-title="'Age'">
+                {{user.age}}
+            </td>
         </tr>
-        </tbody>
-      </table>
+    </table>
+    <!-- end of delete : demonstration code -->
+		
+	<!-- <p><strong>Filter:</strong> {{tableParams.filter()|json}} -->
+	    <!-- <p>It use <a href="https://github.com/esvit/ng-table-export" target="_blank">ngTableExport</a></p> -->
+	    <!-- <a class="btn btn-primary" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="test.csv">Export to CSV</a> -->
+      <!-- <table ng-table="tableParams" show-filter="true" export-csv="csv" class="table table-striped"> -->
+        <!-- <thead> -->
+          <!-- <th>gamerepos</th> -->
+        <!-- </thead> -->
+        <!-- <tbody> -->
+        <!-- <tr ng-repeat="gamerepo in $data"> -->
+          <!-- <td data-title="'gamename'" filter="{ 'gamename': 'text' }">>{{gamerepo.gamename}}</td> -->
+		  <!-- <td data-title="'gamekeys'">{{gamerepo.gamekeys}}</td> -->
+        <!-- </tr> -->
+        <!-- </tbody> -->
+      <!-- </table> -->
 
 </div>
 
