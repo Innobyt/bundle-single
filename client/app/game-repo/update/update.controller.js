@@ -2,11 +2,11 @@
 	'use strict';
 
 	angular.module('gamerepoApp')
-	  .controller('UpdateCtrl', ['$scope', '$filter', ngTableParams, 'gameRepo', UpdateCtrl]);
+	  .controller('UpdateCtrl', ['$scope', '$filter', 'ngTableParams', 'gameRepo', UpdateCtrl]);
 
 	// UpdateCtrl requires 2 actions of CRUD, 
 	// 'R' as in retrieve, 'U' as in update
-	function UpdateCtrl($scope, $filter, gameRepo) {
+	function UpdateCtrl($scope, $filter, ngTableParams, gameRepo) {
 
 		// get, all gameRepo ('R' in Crud)
 		$scope.readall = function(){
@@ -29,7 +29,7 @@
 				$scope.add_gamerepo = add_gamerepo;
 			});
 		}; 
-		
+
 		var data = $scope.readall();	
 		
 		 $scope.tableParams = new ngTableParams({
