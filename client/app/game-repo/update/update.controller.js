@@ -10,8 +10,8 @@
 
 		// get, all gameRepo ('R' in Crud)
 		$scope.readall = function(){
-			var gameRepo = gameRepo.query(function() {
-				$scope.gameRepo = gameRepo;
+			var gamerepo = gameRepo.query(function() {
+				$scope.gamerepo = gamerepo;
 			});
 		};
 
