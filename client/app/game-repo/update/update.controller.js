@@ -1,7 +1,7 @@
 (function() {
 	'use strict';
 
-	angular.module('gamerepoApp', ['ngTable', 'ngTableExport'])
+	angular.module('gamerepoApp')
 	  .controller('UpdateCtrl', ['$scope', $filter, ngTableParams, 'gameRepo', UpdateCtrl]);
 
 	// UpdateCtrl requires 2 actions of CRUD, 
