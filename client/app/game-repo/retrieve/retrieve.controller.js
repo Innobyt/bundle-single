@@ -42,7 +42,7 @@
 			count: 10,          // count per page
 			filter: {
 						gamename: 'game1234'       // initial filter for gamename
-						gamekeys: '' // search for gamekeys
+						gamekey: '' // search for gamekeys
 						keystatus: '' // Has to implement as "Available" and "Claimed", not sure how to create the status as this.
 					}
 					
