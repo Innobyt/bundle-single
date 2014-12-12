@@ -186,7 +186,6 @@ function parse_form_gametitles(args){
 
     // parse gamekeys as an array
     var gamekeys = parse_multiformat_gamekeys(args.gamekeys);
-    console.log("gamekeys: " + gamekeys);
 
     // create an array of entries
     for(var i = 0, array_of_entries = []; i < gamekeys.length; i++){
