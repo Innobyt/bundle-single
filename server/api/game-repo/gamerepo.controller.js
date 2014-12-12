@@ -26,8 +26,6 @@ exports.create = function(req, res) {
     
     // if document by property gamename found, do not create, else create
     gamerepoth.findOne({ gamename: req.body.gamename }, function(err, found){
-
-console.log(parse_form_gamerepoth(req.body));
         
         // handle error
         if(err) return handleError(res,err);
