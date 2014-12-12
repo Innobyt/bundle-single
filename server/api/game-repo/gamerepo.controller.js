@@ -215,7 +215,6 @@ function tally_gametitles_entries(args){
 function parse_multiformat_gamekeys(data){
     
     // support unix/window compliance
-    console.log("parse_multiformat_gamekeys: " + data);
     var gamekeys_array = data.replace( /\r\n/g, "," );
     gamekeys_array = gamekeys_array.replace( /\n/g, "," );
     gamekeys_array = gamekeys_array.replace( /\s/g, "," );
