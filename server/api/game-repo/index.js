@@ -8,7 +8,7 @@ var router = express.Router();
 // crud
 router.post('/', controller.create);
 router.get('/', controller.index);
-router.get('/:id', controller.show);
+router.get('/:gametitle', controller.show);
 router.put('/', controller.update);
 router.delete('/:id', controller.destroy);
 

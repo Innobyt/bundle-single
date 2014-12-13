@@ -47,10 +47,14 @@ exports.index = function(req, res) {
         : res.json(doc);
     });
  };
-
-// show get an individual game-repo document
+ 
+/**
+ * return game-repo document/documents by gamename
+ * @param {object} req - request is an instance of http.IncomingMessage.
+ * @param {object} res - and response is an instance of http.ServerResponse.
+ */
 exports.show = function(req, res) {
-  gametitles.findById(req.params.id, function (err, doc) {
+  gametitles.find({ 'gamename' : req.params.gametitle }, function (err, doc) {
     if(err) { return handleError(res, err); }
     if(!doc) { return res.send(404); }
     return res.json(doc);
