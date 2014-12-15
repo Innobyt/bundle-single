@@ -116,7 +116,7 @@ exports.destroy = function(req,res){
 // has, accepts an array of gametitles, returns true || false
 exports.has_by_json = function(req, res){
 
-    var gamelist = parse_gametitles(req.body.gamelist);
+    var gamelist = parse_multiformat_data(req.body.gamelist);
 
     gamerepoth.find({ gamename: { $in: gamelist } }, function(err, found){
 
@@ -189,7 +189,8 @@ function parse_form_gamerepoth(args){
 function parse_form_gametitles(args){
 
     // parse gamekeys as an array
-    var gamekeys = parse_multiformat_gamekeys(args.gamekeys);
+    var gamekeys = parse_multiformat_data(args.gamekeys);
+
 
     // create an array of entries
     for(var i = 0, array_of_entries = []; i < gamekeys.length; i++){
@@ -215,38 +216,27 @@ function tally_gametitles_entries(args){
     return parse_form_gametitles(args).length;
  }
 
-// accepts, string or csv, returns an array of gamekeys
-function parse_multiformat_gamekeys(data){
+
+// accepts, string or csv, returns an array of items
+function parse_multiformat_data(data){
     
     // support unix/window compliance
-    var gamekeys_array = data.replace( /\r\n/g, "," );
-    gamekeys_array = gamekeys_array.replace( /\n/g, "," );
-    gamekeys_array = gamekeys_array.replace( /\s/g, "," );
-    gamekeys_array = gamekeys_array.split( "," );
+    var adjust = data.replace( /\r\n/g, "," );
+    adjust = adjust.replace( /\n/g, "," );
+    adjust = adjust.replace( /,\s/g, "," );
+    adjust = adjust.replace( /\s,/g, "," );
+    adjust = adjust.split( "," );
+    
+    // remove "" || " " || null || 'undefined'
+    for(var i = 0; i < adjust.length; i++){
 
-    // check if last array is ""
-    while(gamekeys_array[gamekeys_array.length - 1] == ""){
-        gamekeys_array.pop();
+        if( adjust[i] == ""             ||
+            adjust[i] == " "            ||
+            adjust[i] == 'undefined'    ||
+            adjust[i] == null){
+            adjust.splice(i, 1);
+        }
     }
 
-    return gamekeys_array;
- };
-
-// accepts, string, returns an array of gametitles
-function parse_gametitles(data){
-    
-    // support unix/window compliance
-    var gametitle_array = data.replace( /\r\n/g, "," );
-    gametitle_array = gametitle_array.replace( /\n/g, "," );
-    gametitle_array = gametitle_array.replace( /,\s/g, "," );
-    gametitle_array = gametitle_array.replace( /\s,/g, "," );
-    gametitle_array = gametitle_array.split( "," );
-    
-
-    // check if last array is ""
-    while(gametitle_array[gametitle_array.length - 1] == ""){
-        gametitle_array.pop();
-    }
-
-    return gametitle_array;
+    return adjust;
  };
