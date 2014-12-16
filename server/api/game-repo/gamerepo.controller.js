@@ -40,11 +40,80 @@ exports.create = function(req, res) {
     });
  };
 
+// 7.2.2 Control flow pattern #2: Full parallel
+var index_async = {
+
+    // sent
+    sent : false,
+
+    // hold a global variable
+    response_document : [],
+
+    uccdk : function(arg, callback){
+        gametitles.count({ 'gamename' : arg.gamename, 'keystatus' : 'true' }, function (err, count) {
+            if(err) arg.uccdk = 'err';
+            else    arg.uccdk = count;
+            callback( index_async.complete() );
+        });
+    },
+
+    ccdk : function(arg, callback){
+        gametitles.count({ 'gamename' : arg.gamename, 'keystatus' : 'false' }, function (err, count) {
+            if(err) arg.ccdk = 'err';
+            else    arg.ccdk = count;
+            callback( index_async.complete() );
+        });
+    },
+
+    unclaimed_count_complete : function(){
+        for(var i = 0; i < index_async.response_document.length; i++)
+            if( !('uccdk' in index_async.response_document[i]) ) return false;
+        return true;
+    },
+
+    claimed_count_complete : function(){
+        for(var i = 0; i < index_async.response_document.length; i++)
+            if( !('ccdk' in index_async.response_document[i]) ) return false;
+        return true;
+    },
+
+    complete : function(){
+        if(!index_async.sent && 
+            index_async.claimed_count_complete() && 
+            index_async.unclaimed_count_complete())
+        {
+            index_async.sent = true;
+            return true;
+        }
+        return false;
+    },
+
+    // initialize 7.2.2 Control flow pattern #2
+    initialize : function(){
+        index_async.sent = false;
+        index_async.response_document = [];
+    }
+};
+
 // index get a list of game-repo documents
 exports.index = function(req, res) { 
-    gametitles.find({}, function(err, doc){
-        return err ? handleError(res, err)
-        : res.json(doc);
+
+    // initialize 7.2.2 Control flow pattern #2
+    index_async.initialize();
+
+    gamerepoth.find({}, function(err, doc){
+
+        // handle error 
+        if(err) return handleError(res, err);
+
+        // assign copy of document
+        index_async.response_document = make_duplicate_gamerepoth(doc);
+
+        // 7.2.2 Control flow pattern #2
+        index_async.response_document.forEach(function(item) {
+            index_async.uccdk(item, function(complete){ if(complete) res.json(index_async.response_document); });
+            index_async.ccdk(item, function(complete){ if(complete) res.json(index_async.response_document); });
+        });
     });
  };
  
@@ -240,3 +309,20 @@ function parse_multiformat_data(data){
 
     return adjust;
  };
+
+/**
+ * make duplicate gamerepoth documents, returns array of documents
+ * @param {array} doc - mongodb/mongoose returned document/s
+ */
+function make_duplicate_gamerepoth(doc){
+    // create modifed return
+    for(var i = 0, duplicate = []; i < doc.length; i++){
+        duplicate.push({
+            'gamename' : doc[i].gamename,
+            'threshold' : doc[i].threshold,
+            'totalcount' : doc[i].totalcount
+        });
+    };
+
+    return duplicate;
+}
