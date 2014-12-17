@@ -8,10 +8,7 @@ var gamerepo_logic = {
     // create gametitle document, handle error || success response
     create : function(req,res){
         gametitles.create(parse_form_gametitles(req.body),function(err, doc){ 
-            return err ? handleError(res,err) : res.json(201, { // handle err, else handle success
-                gamerepoth : parse_form_gamerepoth(req.body), // return successful data from gamerepoth
-                gametitles : parse_form_gametitles(req.body) // return successful data from gametitles
-            });
+            return err ? handleError(res,err) : res.json(201, { 'result' : 'success' });
         });
     },
 
