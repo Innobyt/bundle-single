@@ -114,17 +114,30 @@ exports.index = function(req, res) {
     });
  };
  
+ 
 /**
- * return game-repo document/documents by gamename
+ * Finds document or documents, by specifying which document fields to include or exclude.
+ * returns example : gamename: [{gamekey, keystatus}, {gamekey, keystatus}, {gamekey, keystatus}]
  * @param {object} req - request is an instance of http.IncomingMessage.
  * @param {object} res - and response is an instance of http.ServerResponse.
  */
 exports.show = function(req, res) {
-  gametitles.find({ 'gamename' : req.params.gametitle }, function (err, doc) {
-    if(err) { return handleError(res, err); }
-    if(!doc) { return res.send(404); }
-    return res.json(doc);
-  });
+    
+    var query = { 
+        'gamename' : req.params.gametitle 
+    };
+
+    var select = {
+        '_id'       : 0,
+        'gamekey'   : 1,
+        'keystatus' : 1
+    };
+
+    gametitles.find(query, select, function(err, doc){
+        return err              // return
+        ? handleError(res, err) // handle error
+        : res.json(doc);        // handle success
+    });
  };
 
 // update (is add) gametitles collection, with additional gamekeys
