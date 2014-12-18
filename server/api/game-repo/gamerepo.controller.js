@@ -222,7 +222,8 @@ exports.claim = function(req, res) {
 
     // create update
     var update = {
-        keystatus : false
+        keystatus : false,
+        timestamp : req.body.timestamp
     };
 
     gametitles.findOne( query, function (err, doc) {
