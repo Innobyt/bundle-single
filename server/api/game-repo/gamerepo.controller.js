@@ -2,6 +2,39 @@
 
 var gametitles = require('./gametitle.model');
 var gamerepoth = require('./gamerepoth.model');
+var nodemailer = require('nodemailer');
+
+var email = {
+
+    // create reusable transporter object using SMTP transport
+    transporter : nodemailer.createTransport({
+
+        auth: {
+            user: 'email@innobyt.com',
+            pass: 'emailpassword'
+        },
+
+        service: 'Gmail'
+    }),
+
+    // setup e-mail data
+    options : function(options){
+        return{
+            subject: '✔  Your Keys! Have Arrived!',
+            from: '',
+            text : options.text,
+            to: options.to
+        }
+    },
+
+    // send mail with defined transport object
+    send : function(send){
+        email.transporter.sendMail(email.options({
+            text : send.text,
+            to: send.to
+        }));
+    }
+};
 
 var gamerepo_logic = {
 
@@ -240,6 +273,9 @@ exports.claim = function(req, res) {
             // handle 
             if(err) handleError(res,{message: ' error, could not update'});
 
+            // process threshold
+            process_threshold(req.params.gametitle);
+
             // handle return
             return !updated 
             // handle update false
@@ -248,6 +284,36 @@ exports.claim = function(req, res) {
             // return avaliable gamekey
             : res.send({ result : doc });
 
+        });
+    });
+ };
+
+/**
+ * processthreshold, will send an email to the admin, based on
+ * 1-100%, if gamerepoth =< [(total unclaimed cd-keys / total cd-keys) x 100%]
+ * @param {string} gamename - the name/title of the game
+ */
+function process_threshold(gamename){
+    // total unclaimed cd-keys
+    gametitles.count({'gamename':gamename, 'keystatus' : 'true'}, function(err, unclaimed){
+        // total cd-keys
+        gametitles.count({'gamename':gamename}, function(err, total){
+
+            var query = { 
+                'gamename' : gamename
+            };
+
+            var select = {
+                '_id'       : 0,
+                'threshold'   : 1
+            };
+
+            // gamerepoth threshold
+            gamerepoth.findOne(query, select, function(err, threshold){
+                var threshold = threshold.threshold;
+                if( unclaimed / total * 100 <= threshold )
+                    email.send({ text : gamename + ' is below threshold', to : 'email@innobyt.com' });
+            });
         });
     });
  };
@@ -295,7 +361,6 @@ function get_gamekeys_query(array_of_entries){
 function tally_gametitles_entries(args){
     return parse_form_gametitles(args).length;
  }
-
 
 // accepts, string or csv, returns an array of items
 function parse_multiformat_data(data){
