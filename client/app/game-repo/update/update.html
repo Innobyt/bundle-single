@@ -16,17 +16,28 @@
       <h1 class="page-header">Form:</h1>
     </div>
   </div>
+  
+    <!-- Gamerepo List View -->
+    <div class="jumbotron text-center"> <h1>Gamerepo Listing</h1> </div>
+    <ul class="list-group col-sm-12" ng-repeat="(key, repo) in gamerepo">
+        <li class="list-group-item">
+            <div class="col-md-9">{{repo.gamename}}</div>
+			<span class="label label-success">{{repo.uccdk}}</span>
+			<span class="label label-danger">{{repo.ccdk}}</span>		
+            <button ng-click="add(repo.gamename)" class="btn-primary">Add</button>
+        </li>
+    </ul>  
 
       <!-- Gamerepo Add Gamerepo Game Keys-->
       <div class="jumbotron text-center"> <h1>Gamerepo Add Game Keys</h1> </div>
       <div class="col-sm-8 col-sm-offset-2 list-group-item">
         <form class="form-group">
-    <label> Game Title </label> <input type="text" id="gamename" class="form-control input-lg" ng-model="formData.gamename" value="{{add_gamerepo.gamename}}" disabled>		
+    <label> Game Title </label> <input type="text" id="gamename" class="form-control input-lg" ng-model="formData.gamename" value="{{add_gamerepo._gamename}}" disabled>		
     <label> Game Key </label> <input type="text" id="gamekeys" class="form-control input-lg" placeholder="XXXXX-XXXXX-XXXXX-XXXXX" ng-model="formData.gamekeys">
     <label for="keyupload">File Upload for Game Keys (.csv)</label> <input type="file" id="gamekeys" ng-model="formData.gamekeys">
     <label> Threshold </label> <input type="text" id="threshold" class="form-control input-lg" placeholder="10" ng-model="formData.threshold">
         </form>
-        <button type="submit" class="btn btn-primary btn-lg" ng-click="update()">Update</button>
+        <button type="submit" class="btn btn-primary btn-lg" ng-click="update()">Add</button>
 		</div>
 
 </div>

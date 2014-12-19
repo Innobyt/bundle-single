@@ -19,6 +19,8 @@
     <ul class="list-group col-sm-12" ng-repeat="(key, repo) in gamerepo">
         <li class="list-group-item">
             <div class="col-md-9">{{repo.gamename}}</div>
+			<span class="label label-success">{{repo.uccdk}}</span>
+			<span class="label label-danger">{{repo.ccdk}}</span>
             <button ng-click="view(repo.gamename)" class="btn-primary">View</button>			
             <button ng-click="add(repo.gamename)" class="btn-primary">Add</button>
         </li>

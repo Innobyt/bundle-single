@@ -8,11 +8,27 @@
 	// 'R' as in retrieve, 'U' as in update
 	function UpdateCtrl($scope, $filter, ngTableParams, gameRepo) {
 
-		// put, gameRepo update ('U' in Crud)
+		// get, all gameRepo ('R' in Crud)
+		$scope.readall = function(){
+			var gamerepo = gameRepo.query(function() {
+				$scope.gamerepo = gamerepo;
+			});
+		};			
+	
+		// prepare to add update
+		$scope.add = function(getName) {
+			var add_gamerepo = gameRepo.get({ gamename: getName }, function() {
+				$scope.add_gamerepo = add_gamerepo;
+			}); 
+		};			
+		
+		// prepare to update
 		$scope.update = function() {
+			$scope.add_gamerepo.gamename = $scope.add_gamerepo._gamename;
 			var update = gameRepo.update($scope.add_gamerepo, function() {
-				$scope.edit($scope.add_gamerepo.gamename);
-				$scope.submit();
+				//$scope.edit($scope.add_gamerepo._gamename);			
+				$scope.formData.$save($scope.add_gamerepo._gamename);
+				//$scope.submit();
 			});
 		};
 		
@@ -23,6 +39,7 @@
 
 		// initialize gameRepo controller and services
 		$scope.initialize = function(){
+			$scope.readall();
 			$scope.formData = new gameRepo();
 		};
 

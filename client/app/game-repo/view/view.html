@@ -13,6 +13,17 @@
             <h1 class="page-header">Form:</h1>
         </div>
     </div>
+	
+	<!-- Gamerepo List View -->
+    <div class="jumbotron text-center"> <h1>Gamerepo Listing</h1> </div>
+    <ul class="list-group col-sm-12" ng-repeat="(key, repo) in gamerepo">
+        <li class="list-group-item">
+            <div class="col-md-9">{{repo.gamename}}</div>
+			<span class="label label-success">{{repo.uccdk}}</span>
+			<span class="label label-danger">{{repo.ccdk}}</span>
+            <button ng-click="view(repo.gamename)" class="btn-primary">View</button>	
+        </li>
+    </ul>
 
     <!-- Gamerepo List View -->
     <div class="jumbotron text-center"> <h1>View Repo: {{repo.gamename}}</h1> </div>

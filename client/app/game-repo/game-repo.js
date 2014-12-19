@@ -13,6 +13,11 @@ angular.module('gamerepoApp')
         templateUrl: 'app/game-repo/retrieve/retrieve.html',
         controller: 'RetrieveCtrl'
       })
+      .state('gamerepo-listing', {
+        url: '/game-repo/listing',
+        templateUrl: 'app/game-repo/listing/listing.html',
+        controller: 'ListingCtrl'
+      })	  
       .state('gamerepo-view', {
         url: '/game-repo/view',
         templateUrl: 'app/game-repo/view/view.html',
