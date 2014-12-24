@@ -173,7 +173,13 @@ exports.show = function(req, res) {
     });
  };
 
-// update (is add) gametitles collection, with additional gamekeys
+/**
+ * update adds gamekeys to gametitles collection in gamerepo database
+ * put url:port/api/game-repo/ accepts post fields gamename (string),
+ * gamekeys (CSV/String) 
+ * @param {object} req  - is an instance of http.IncomingMessage..
+ * @param {object} res  - and response is an instance of http.ServerResponse.
+ */
 exports.update = function(req, res) {
 
     // query object
@@ -244,7 +250,13 @@ exports.has_by_json = function(req, res){
     });
  };
 
-// claim a gamekey by gametitle
+/**
+ * post url:port/api/game-repo/claim/:gametitle accepts post fields timestamp 
+ * (String), 
+ * sends email to customers, provided email, containing cd-keys.
+ * @param {object} req  - is an instance of http.IncomingMessage..
+ * @param {object} res  - and response is an instance of http.ServerResponse.
+ */
 exports.claim = function(req, res) {
 
     // create a query
