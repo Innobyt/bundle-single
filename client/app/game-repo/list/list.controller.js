@@ -1,13 +1,12 @@
 (function() {
 	'use strict';
-
+	
 	angular.module('gamerepoApp')
-	  .controller('UpdateCtrl', ['$rootScope', '$scope', '$state', '$stateParams', '$filter', 'ngTableParams', 'gameRepo', UpdateCtrl]);
-
-	// UpdateCtrl requires 2 actions of CRUD, 
-	// 'R' as in retrieve, 'U' as in update
-	function UpdateCtrl($rootScope, $scope, $state, $stateParams, $filter, ngTableParams, gameRepo) {
-
+	  .controller('ListCtrl', ['$rootScope', '$scope', '$state', '$stateParams', '$filter', 'ngTableParams', 'gameRepo', ListCtrl]);
+	
+	// RetrieveCtrl requires 1 actions of CRUD, R as in retrieve
+	function ListCtrl($rootScope, $scope, $state, $stateParams, $filter, ngTableParams, gameRepo) {
+	
 		$rootScope.$state = $state;
 		$rootScope.$stateParams = $stateParams;
 		$rootScope.$stateParams.gamename = $stateParams.gamename;
@@ -18,15 +17,22 @@
 			var gamerepo = gameRepo.query(function() {
 				$scope.gamerepo = gamerepo;
 			});
-		};			
-	
+		};
+		
+		// prepare to view
+		$scope.view = function(gamename) {
+			var view_gamerepo = gameRepo.get({ gamename: gamename }, function() {
+				$scope.view_gamerepo = view_gamerepo;
+				console.log(view_gamerepo);
+			}); 
+		};
+		
 		// prepare to add update
 		$scope.add = function(gamename) {
-			if ($stateParams.gamename == gamename) {
-				var add_gamerepo = gameRepo.get({ gamename: gamename }, function() {
-					$scope.add_gamerepo = add_gamerepo;
-				}); 
-			};
+			var add_gamerepo = gameRepo.get({ gamename: gamename }, function() {
+				$scope.add_gamerepo = add_gamerepo;
+				console.log(add_gamerepo);
+			}); 
 		};			
 		
 		// prepare to update
@@ -34,21 +40,16 @@
 			var update = gameRepo.update($scope.add_gamerepo, function() {
 				//$scope.edit($scope.add_gamerepo._gamename);			
 				$scope.formData.$save($scope.add_gamerepo.gamename);
-				//$scope.submit();
+				console.log(update);
 			});
 		};
 		
-		// post, gameRepo creation ('C' in Crud)
-		$scope.submit = function() {
-			$scope.formData.$save(function(){ $scope.initialize(); });
-		 };		
-
 		// initialize gameRepo controller and services
 		$scope.initialize = function(){
 			$scope.readall();
-			$scope.formData = new gameRepo();
 		};
 
 		$scope.initialize();
+		
 	};
 })();

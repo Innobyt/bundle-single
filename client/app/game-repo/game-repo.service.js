@@ -6,7 +6,7 @@
 	    .factory('gameRepo', ['$resource', gameRepo]);
 
 	function gameRepo($resource) {
-		return $resource('/api/game-repo/:id', { id: "@_id" }, 
+		return $resource('/api/game-repo/:gamename', { gamename: "@gamename" }, 
 		{
 		  'create':  { method: 'POST' },
 		  'index':   { method: 'GET', isArray: true },

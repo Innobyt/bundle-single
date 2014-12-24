@@ -1,16 +1,16 @@
 'use strict';
 
-describe('Controller: DeleteCtrl', function () {
+describe('Controller: ListCtrl', function () {
 
   // load the controller's module
   beforeEach(module('gamerepoApp'));
 
-  var DeleteCtrl, scope;
+  var ListCtrl, scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    DeleteCtrl = $controller('DeleteCtrl', {
+    ListCtrl = $controller('ListCtrl', {
       $scope: scope
     });
   }));
