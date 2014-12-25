@@ -374,11 +374,15 @@ function tally_gametitles_entries(args){
     return parse_form_gametitles(args).length;
  }
 
-// accepts, string or csv, returns an array of items
-function parse_multiformat_data(data){
+/**
+ * parse_multiformat_data converts a csv or comma separated string of
+ * cd-keys into an array of cd-keys.
+ * @param {string} cdkeys - csv or comma separated string of cd-keys
+ */
+function parse_multiformat_data(cdkeys){
     
     // support unix/window compliance
-    var adjust = data.replace( /\r\n/g, "," );
+    var adjust = cdkeys.replace( /\r\n/g, "," );
     adjust = adjust.replace( /\n/g, "," );
     adjust = adjust.replace( /,\s/g, "," );
     adjust = adjust.replace( /\s,/g, "," );
